@@ -5,7 +5,7 @@ public class UserOutput {
     /*
      * https://patorjk.com/software/taag
      */
-    public void displayWelcome(){
+    public void displayHangmanWelcome(){
         System.out.print(ConsoleColors.YELLOW_BOLD);
         System.out.println(" o         o                                                                               ");
         System.out.println("<|>       <|>                                                                              ");
@@ -22,5 +22,10 @@ public class UserOutput {
         System.out.println();
         System.out.print(ConsoleColors.RESET);
         System.out.println("*** Welcome to Hangman Classic ***");
+        System.out.println("Your word: ");
+    }
+
+    public void displayWordleWelcome(){
+
     }
 }
