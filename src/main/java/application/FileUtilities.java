@@ -27,4 +27,19 @@ public class FileUtilities {
 
         return useableWords.get(randomIndex);
     }
+
+    public String readRandomLineFromFile(String vocabFile) throws Exception {
+
+        File file = new File (vocabFile);
+        Scanner words = new Scanner(file);
+        List<String> useableWords = new ArrayList<>();
+        while (words.hasNext()){
+            useableWords.add(words.next());
+        }
+
+        Random rand = new Random();
+        int randomIndex = rand.nextInt(useableWords.size());
+
+        return useableWords.get(randomIndex);
+    }
 }

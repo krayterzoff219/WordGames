@@ -23,12 +23,12 @@ public class Wordle {
         userOutput.displayWordleWelcome();
 
 
-        String targetWord = fileUtilities.readRandomLineFromFile();
-        while (targetWord.length()!=5){
-            targetWord = fileUtilities.readRandomLineFromFile();
-        }
+        String targetWord = fileUtilities.readRandomLineFromFile("wordleWords.txt").toLowerCase();
+//        while (targetWord.length()!=5){
+//            targetWord = fileUtilities.readRandomLineFromFile();
+//        }
 
-//        String targetWord = "daily";
+//        targetWord = "Drama";
 
 
 
@@ -56,7 +56,31 @@ public class Wordle {
         while (numberFailedGuesses < NUMBER_OF_GUESSES){
 
             String userGuess = userInput.getWordFromUser();
-            int count = 0;
+            char[] targetChecker = targetWord.toCharArray();
+            int count;
+            for (int i = 0; i < targetChecker.length; i++){
+                count = 1;
+                for (int j = i + 1; j < targetChecker.length; j++){
+                    if (targetChecker[i] == targetChecker[j]) {
+                        count++;
+                        //targetChecker[j] = '0';
+                    }
+                }
+                String holder = "" + count;
+                targetChecker[i] = holder.charAt(0);
+            }
+            char[] guessChecker = userGuess.toCharArray();
+            for (int i = 0; i < guessChecker.length; i++){
+                count = 1;
+                for (int j = i + 1; j < guessChecker.length; j++){
+                    if (guessChecker[i] == guessChecker[j]){
+                        count++;
+                        //targetChecker[j] = '0';
+                    }
+                }
+                String holder = "" + count;
+                guessChecker[i] = holder.charAt(0);
+            }
             if(userGuess.equalsIgnoreCase(targetWord)){
                 didSolve = true;
                 numberFailedGuesses = 100;
@@ -66,12 +90,24 @@ public class Wordle {
                     if(userGuess.charAt(i) == targetWord.charAt(i)){
                         System.out.print(ConsoleColors.GREEN_BACKGROUND);
                         System.out.print(userGuess.charAt(i));
-                    } else if (targetWord.indexOf(userGuess.charAt(i)) != -1){              //Find way to make repeat letters only turn blue if there is another letter of that kind
-                        System.out.print(ConsoleColors.BLUE_BACKGROUND);
-                        System.out.print(userGuess.charAt(i));
-                    } else{
-                        System.out.print(ConsoleColors.BLACK_BACKGROUND);
-                        System.out.print(userGuess.charAt(i));
+                    } else {
+                        int index = targetWord.indexOf(userGuess.charAt(i));
+                        if (index != -1) {
+                            if (targetChecker[index] == guessChecker[i]) {              //Find way to make repeat letters only turn blue if there is another letter of that kind
+                                System.out.print(ConsoleColors.BLUE_BACKGROUND);
+                                System.out.print(userGuess.charAt(i));
+                            } else if (targetChecker[index] != '1'){
+                                System.out.print(ConsoleColors.BLUE_BACKGROUND);
+                                System.out.print(userGuess.charAt(i));
+                            } else {
+                                System.out.print(ConsoleColors.BLACK_BACKGROUND);
+                                System.out.print(userGuess.charAt(i));
+                            }
+
+                        } else{
+                            System.out.print(ConsoleColors.BLACK_BACKGROUND);
+                            System.out.print(userGuess.charAt(i));
+                        }
                     }
                 }
                 System.out.print(ConsoleColors.RESET);
